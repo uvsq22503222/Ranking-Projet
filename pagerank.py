@@ -121,6 +121,7 @@ def pagerank_google_sparse(
     alpha: float = 0.85,
     eps: float = 1e-6,
     max_iter: int = 10000,
+    verbose: bool = True,
 ) -> Tuple[np.ndarray, int, float]:
     """
     Implémentation du cours 3 :
@@ -170,8 +171,8 @@ def pagerank_google_sparse(
         # Norme L1
         norme = np.sum(np.abs(y - x))
 
-        # Affichage comme demandé
-        print(f"norme {k} = {norme:.10f}")
+        if verbose:
+            print(f"norme {k} = {norme:.10f}")
 
         if norme <= eps:
             elapsed_time = time.time() - start_time
