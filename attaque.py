@@ -131,7 +131,7 @@ def main():
                 )
                 delta = score_att - base_score
                 results[target_label][atk_name].append((n_att, delta))
-                print(f"    n={n_att:4d}  score={score_att:.8f}  Δ={delta:+.8f}  iters={iters_att}")
+                print(f"    n={n_att:4d}  Δ={delta:+.8f}  iters={iters_att}")
         print()
 
     # ===== RÉSUMÉ =====
