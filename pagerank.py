@@ -1,3 +1,4 @@
+import sys
 import time
 import numpy as np
 from typing import List, Tuple
@@ -144,7 +145,10 @@ def pagerank_google_sparse(
 
 def main():
     # ===== PARAMÈTRES =====
-    path = "wikipedia-20051105.mtx"
+    if len(sys.argv) < 2:
+        print(f"Usage: python {sys.argv[0]} <fichier.mtx>")
+        sys.exit(1)
+    path = sys.argv[1]
     alpha = 0.85
     eps = 1e-6
     max_iter = 10000
