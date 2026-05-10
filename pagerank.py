@@ -54,11 +54,11 @@ def read_txt(path: str) -> Tuple[int, int, int, list[tuple[int, int, float]]]:
         first = f.readline().strip().split()
 
         if len(first) == 1:
-            # G1000 format: n seul sur la première ligne, nnz sur la deuxième
+            #n seul sur la première ligne, nnz sur la deuxième
             n = int(first[0])
             nnz_header = int(f.readline().strip())
         elif len(first) == 2:
-            # Stanford format: n et nnz sur la même ligne
+            #n et nnz sur la même ligne
             n = int(first[0])
             nnz_header = int(first[1])
         else:
