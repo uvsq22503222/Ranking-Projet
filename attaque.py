@@ -1,6 +1,6 @@
 import sys
 import numpy as np
-from pagerank import read_matrix_market_coo, build_out_lists, pagerank_google_sparse
+from pagerank import read_file, build_out_lists, pagerank_google_sparse
 
 
 def select_targets(pi: np.ndarray):
@@ -82,7 +82,7 @@ def main():
     eps = 1e-6
     max_iter = 10000
 
-    nrows, ncols, _, entries = read_matrix_market_coo(path)
+    nrows, ncols, _, entries = read_file(path)
     if nrows != ncols:
         raise ValueError(f"Matrice non carrée: {nrows}x{ncols}")
     N = nrows
@@ -107,7 +107,7 @@ def main():
     print("Cibles sélectionnées :")
     for label, (idx, score) in targets.items():
         rang = int(np.where(order_base == idx)[0][0]) + 1
-        print(f"  {label:8s}: sommet {idx+1:6d}  score={score:.8f}  rang={rang}/{N}")
+        print(f"  {label:8s}: sommet {idx+1:6d}  rang={rang}/{N}")
     print()
 
     attack_fns = {
@@ -122,7 +122,7 @@ def main():
     results = {t: {a: [] for a in attack_fns} for t in targets}
 
     for target_label, (target_idx, base_score) in targets.items():
-        print(f"=== Cible {target_label} (sommet {target_idx+1}, score de base={base_score:.8f}) ===")
+        print(f"=== Cible {target_label} (sommet {target_idx+1}) ===")
         for atk_name, atk_fn in attack_fns.items():
             print(f"  [{atk_name}]")
             for n_att in attacker_sizes:
