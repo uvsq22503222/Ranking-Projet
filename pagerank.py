@@ -47,7 +47,42 @@ def read_matrix_market_coo(path: str) -> Tuple[int, int, int, List[Tuple[int, in
 
     return nrows, ncols, nnz, entries
 
+def read_txt(path: str) -> Tuple[int, int, int, list[tuple[int, int, float]]]:
+    entries: List[Tuple[int, int, float]] = []
 
+    with open(path, "r", encoding="utf-8") as f:
+        first = f.readline().strip().split()
+        
+        if len(first) < 2:
+            raise ValueError("Ligne invalide")
+        
+        n = int(first[0])
+        nnz_header = int(first[1])
+        
+        for line in f:
+            parts = line.strip().split()
+            if len(parts) < 2:
+                continue
+            
+            i = int(parts[0]) - 1
+            deg = int(parts[1])
+            excepted_len = 2 + 2*deg
+            if len(parts) < excepted_len:
+                raise ValueError(f"Ligne invalide pour le sommet {i+1}")
+            for k in range(deg):
+                j = int(parts[2 + 2*k]) - 1
+                val = float(parts[3 + 2*k])
+                entries.append((i, j, val))
+    return n, n, nnz_header, entries
+
+def read_file(path: str) -> Tuple[int, int, int, list[tuple[int, int, float]]]:
+    if path.endswith(".mtx"):
+        return read_matrix_market_coo(path)
+    elif path.endswith(".txt"):
+        return read_txt(path)
+    else:
+        raise ValueError(f"Format de fichier non supporté: {path}")
+            
 def build_out_lists(
     n: int,
     entries: List[Tuple[int, int, float]],
@@ -154,7 +189,7 @@ def main():
     max_iter = 10000
 
     # ===== LECTURE DU FICHIER =====
-    nrows, ncols, nnz_header, entries = read_matrix_market_coo(path)
+    nrows, ncols, nnz_header, entries = read_file(path)
     if nrows != ncols:
         raise ValueError(f"Matrice non carrée: {nrows}x{ncols} (PageRank exige NxN)")
 
