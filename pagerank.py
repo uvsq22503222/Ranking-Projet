@@ -52,13 +52,18 @@ def read_txt(path: str) -> Tuple[int, int, int, list[tuple[int, int, float]]]:
 
     with open(path, "r", encoding="utf-8") as f:
         first = f.readline().strip().split()
-        
-        if len(first) < 2:
-            raise ValueError("Ligne invalide")
-        
-        n = int(first[0])
-        nnz_header = int(first[1])
-        
+
+        if len(first) == 1:
+            # G1000 format: n seul sur la première ligne, nnz sur la deuxième
+            n = int(first[0])
+            nnz_header = int(f.readline().strip())
+        elif len(first) == 2:
+            # Stanford format: n et nnz sur la même ligne
+            n = int(first[0])
+            nnz_header = int(first[1])
+        else:
+            raise ValueError(f"Première ligne invalide: {' '.join(first)}")
+
         for line in f:
             parts = line.strip().split()
             if len(parts) < 2:
