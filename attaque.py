@@ -151,19 +151,6 @@ def main():
         print(f"{target_label:<10} {best_atk:<10} {best_n:>5}  {best_delta:>+12.8f}")
     print()
 
-    print("=" * 60)
-    print("RÉSUMÉ : Δ par structure et par n (toutes cibles confondues)")
-    print("=" * 60)
-    header = f"{'':>10}" + "".join(f"  n={n:>4}" for n in attacker_sizes)
-    print(header)
-    print("-" * 60)
-    for atk_name in attack_fns:
-        for target_label in targets:
-            deltas = [d for _, d in results[target_label][atk_name]]
-            row = f"{atk_name+'/'+target_label:<10}" + "".join(f"  {d:>+8.2e}" for d in deltas)
-            print(row)
-        print()
-
 
 if __name__ == "__main__":
     main()
