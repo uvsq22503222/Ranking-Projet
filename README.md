@@ -1,6 +1,6 @@
 # Projet de Ranking — PageRank & Google Bombing
 
-GE Shunning - GUO Xuxin
+GE Shuning - GUO Xuxin
 
 ## Description
 
